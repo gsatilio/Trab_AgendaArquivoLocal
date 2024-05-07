@@ -8,9 +8,9 @@ namespace Trab_AgendaArquivoLocal
 {
     internal class Contact
     {
-        public string name {  get; set; }
-        public string email {  get; set; }
-        public Address address {  get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
+        public Address address { get; set; }
         public List<Phone> phone { get; set; }
 
         public Contact(string name, string email, Address address, List<Phone> phone)
@@ -23,7 +23,25 @@ namespace Trab_AgendaArquivoLocal
 
         public override string? ToString()
         {
-            return $"Nome: {name}\nEmail: {email}\n{address.ToString()}\n{phone.ToString()}";
+            string text = "";
+            text = "=> Contato";
+            text = $"\nNome: {name}\nEmail: {email}\n{address.ToString()}";
+            text += "\n=> Telefone(s)";
+            for (int i = 0; i < phone.Count; i++)
+            {
+                text += "\n" + phone[i].ToString();
+            }
+            return text;
+        }
+        public string printPhones()
+        {
+            string text = "";
+            text += "\n=> Telefone(s)";
+            for (int i = 0; i < phone.Count; i++)
+            {
+                text += "\n" + phone[i].ToString();
+            }
+            return text;
         }
     }
 }

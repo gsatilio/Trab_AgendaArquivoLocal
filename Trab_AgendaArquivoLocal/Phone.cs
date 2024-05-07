@@ -19,7 +19,7 @@ namespace Trab_AgendaArquivoLocal
 
         public override string? ToString()
         {
-            return $"Número: {number}\nTipo: {type}";
+            return $"Número: {number} Tipo: {type}";
         }
     }
 }
