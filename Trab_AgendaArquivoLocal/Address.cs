@@ -29,5 +29,11 @@ namespace Trab_AgendaArquivoLocal
         {
             return $"CEP: {postalcode}\nUF: {state}\nCidade: {city}\nEndereço: {street}\nNúmero: {number}\nBairro: {neighborhood}";
         }
+        public string printToFile()
+        {
+            string text = "";
+            text = $"{postalcode};{state};{city};{street};{number};{neighborhood}";
+            return text;
+        }
     }
 }

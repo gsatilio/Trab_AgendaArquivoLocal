@@ -43,5 +43,15 @@ namespace Trab_AgendaArquivoLocal
             }
             return text;
         }
+        public string printToFile()
+        {
+            string text = "";
+            text = $"{this.name};{this.email};{this.address.printToFile()};";
+            for (int i = 0; i < phone.Count; i++)
+            {
+                text += phone[i].printToFile();
+            }
+            return text;
+        }
     }
 }

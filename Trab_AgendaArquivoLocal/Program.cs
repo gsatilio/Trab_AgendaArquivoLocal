@@ -16,6 +16,7 @@ internal class Program
             Console.WriteLine("3 - Mostrar todos os Contatos");
             Console.WriteLine("4 - Pesquisar Contato");
             Console.WriteLine("5 - Modificar Dados do Contato");
+            Console.WriteLine("6 - Salvar Agenda no Computador");
             Console.WriteLine("0 - Sair");
             opt = int.Parse(Console.ReadLine());
             switch (opt)
@@ -38,6 +39,7 @@ internal class Program
                     modifyContact(listContact);
                     break;
                 case 6:
+                    saveToFile(listContact);
                     break;
                 default:
                     Console.WriteLine("Opção inválida.");
@@ -174,6 +176,7 @@ internal class Program
                 found = true;
                 if (found)
                 {
+                    //////// Alterar Nome do contato
                     Console.WriteLine($"Deseja alterar o Nome do contato?(Nome atual: {listContact[i].name})\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
                     if (opt.ToLower() == "s")
@@ -182,6 +185,7 @@ internal class Program
                         listContact[i].name = Console.ReadLine();
                         opt = "";
                     }
+                    //////// Alterar Email do contato
                     Console.WriteLine($"Deseja alterar o Email do contato?(Email atual: {listContact[i].email})\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
                     if (opt.ToLower() == "s")
@@ -190,6 +194,7 @@ internal class Program
                         listContact[i].email = Console.ReadLine();
                         opt = "";
                     }
+                    //////// Alterar Endereço do contato
                     Console.WriteLine("=> Endereço atual <=");
                     Console.WriteLine(listContact[i].address.ToString());
                     Console.WriteLine($"Deseja alterar o Endereço do contato?\n[S - Sim][Outra tecla - Não]");
@@ -199,6 +204,7 @@ internal class Program
                         listContact[i].address = createAddress();
                         opt = "";
                     }
+                    //////// Alterar Telefones do contato
                     Console.WriteLine(listContact[i].printPhones());
                     Console.WriteLine($"Deseja alterar o(s) telefone(s) do contato?\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
@@ -233,5 +239,23 @@ internal class Program
         {
             Console.WriteLine("Contato não localizado.");
         }
+    }
+    static void saveToFile(List<Contact> listContact)
+    {
+        string path = @"C:\Dados\", file = "agenda.txt";
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        Console.WriteLine("Esse processo salvará um arquivo na pasta C:\\Dados\\agenda.txt");
+        StreamWriter filecontent = new(path + file);
+        filecontent.WriteLine("nome;email;cep;uf;cidade;endereco;numero;bairro;telefones");
+        foreach (var item in listContact)
+        {
+            filecontent.WriteLine(item.printToFile());
+        }
+        Console.WriteLine("Arquivo gerado com sucesso.");
+        filecontent.Close();
     }
 }
