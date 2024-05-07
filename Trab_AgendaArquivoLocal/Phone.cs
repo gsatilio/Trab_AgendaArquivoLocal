@@ -8,8 +8,8 @@ namespace Trab_AgendaArquivoLocal
 {
     internal class Phone
     {
-        public string number { get; set; }
-        public string type { get; set; }
+        string number;
+        string type;
 
         public Phone(string number, string type)
         {

@@ -115,7 +115,7 @@ internal class Program
         name = Console.ReadLine();
         for (int i = listContact.Count - 1; i >= 0; i--)
         {
-            if (listContact[i].name == name)
+            if (listContact[i].Name == name)
             {
                 listContact.RemoveAt(i);
                 removed = true;
@@ -138,7 +138,7 @@ internal class Program
         name = Console.ReadLine();
         for (int i = listContact.Count - 1; i >= 0; i--)
         {
-            if (listContact[i].name == name)
+            if (listContact[i].Name == name)
             {
                 Console.WriteLine(listContact[i].ToString());
                 found = true;
@@ -171,37 +171,37 @@ internal class Program
         name = Console.ReadLine();
         for (int i = listContact.Count - 1; i >= 0; i--)
         {
-            if (listContact[i].name == name)
+            if (listContact[i].Name == name)
             {
                 found = true;
                 if (found)
                 {
                     //////// Alterar Nome do contato
-                    Console.WriteLine($"Deseja alterar o Nome do contato?(Nome atual: {listContact[i].name})\n[S - Sim][Outra tecla - Não]");
+                    Console.WriteLine($"Deseja alterar o Nome do contato?(Nome atual: {listContact[i].Name})\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
                     if (opt.ToLower() == "s")
                     {
                         Console.WriteLine("Informe o nome desejado:");
-                        listContact[i].name = Console.ReadLine();
+                        listContact[i].Name = Console.ReadLine();
                         opt = "";
                     }
                     //////// Alterar Email do contato
-                    Console.WriteLine($"Deseja alterar o Email do contato?(Email atual: {listContact[i].email})\n[S - Sim][Outra tecla - Não]");
+                    Console.WriteLine($"Deseja alterar o Email do contato?(Email atual: {listContact[i].Email})\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
                     if (opt.ToLower() == "s")
                     {
                         Console.WriteLine("Informe o Email desejado:");
-                        listContact[i].email = Console.ReadLine();
+                        listContact[i].Email = Console.ReadLine();
                         opt = "";
                     }
                     //////// Alterar Endereço do contato
                     Console.WriteLine("=> Endereço atual <=");
-                    Console.WriteLine(listContact[i].address.ToString());
+                    Console.WriteLine(listContact[i].Address.ToString());
                     Console.WriteLine($"Deseja alterar o Endereço do contato?\n[S - Sim][Outra tecla - Não]");
                     opt = Console.ReadLine();
                     if (opt.ToLower() == "s")
                     {
-                        listContact[i].address = createAddress();
+                        listContact[i].Address = createAddress();
                         opt = "";
                     }
                     //////// Alterar Telefones do contato
@@ -229,7 +229,7 @@ internal class Program
                             }
                             phonequantity++;
                         } while (opt == "s" && phonequantity < 2);
-                        listContact[i].phone = temp_listphone;
+                        listContact[i].Phone = temp_listphone;
                         opt = "";
                     }
                 }

@@ -8,28 +8,28 @@ namespace Trab_AgendaArquivoLocal
 {
     internal class Contact
     {
-        public string name { get; set; }
-        public string email { get; set; }
-        public Address address { get; set; }
-        public List<Phone> phone { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public Address Address { get; set; }
+        public List<Phone> Phone { get; set; }
 
         public Contact(string name, string email, Address address, List<Phone> phone)
         {
-            this.name = name;
-            this.email = email;
-            this.address = address;
-            this.phone = phone;
+            this.Name = name;
+            this.Email = email;
+            this.Address = address;
+            this.Phone = phone;
         }
 
         public override string? ToString()
         {
             string text = "";
             text = "=> Contato";
-            text = $"\nNome: {name}\nEmail: {email}\n{address.ToString()}";
+            text = $"\nNome: {Name}\nEmail: {Email}\n{Address.ToString()}";
             text += "\n=> Telefone(s)";
-            for (int i = 0; i < phone.Count; i++)
+            for (int i = 0; i < Phone.Count; i++)
             {
-                text += "\n" + phone[i].ToString();
+                text += "\n" + Phone[i].ToString();
             }
             return text;
         }
@@ -37,19 +37,19 @@ namespace Trab_AgendaArquivoLocal
         {
             string text = "";
             text += "\n=> Telefone(s)";
-            for (int i = 0; i < phone.Count; i++)
+            for (int i = 0; i < Phone.Count; i++)
             {
-                text += "\n" + phone[i].ToString();
+                text += "\n" + Phone[i].ToString();
             }
             return text;
         }
         public string printToFile()
         {
             string text = "";
-            text = $"{this.name};{this.email};{this.address.printToFile()};";
-            for (int i = 0; i < phone.Count; i++)
+            text = $"{this.Name};{this.Email};{this.Address.printToFile()};";
+            for (int i = 0; i < Phone.Count; i++)
             {
-                text += phone[i].printToFile();
+                text += Phone[i].printToFile();
             }
             return text;
         }

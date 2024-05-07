@@ -8,12 +8,12 @@ namespace Trab_AgendaArquivoLocal
 {
     internal class Address
     {
-        public string postalcode {  get; set; }
-        public string state { get; set; }
-        public string city { get; set; }
-        public string street { get; set; }
-        public string neighborhood { get; set; }
-        public int number { get; set; }
+        string postalcode;
+        string state;
+        string city;
+        string street;
+        string neighborhood;
+        int number;
 
         public Address(string postalcode, string state, string city, string street, string neighborhood, int number)
         {
