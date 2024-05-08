@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Trab_AgendaArquivoLocal;
 
 internal class Program
@@ -17,6 +18,7 @@ internal class Program
             Console.WriteLine("4 - Pesquisar Contato");
             Console.WriteLine("5 - Modificar Dados do Contato");
             Console.WriteLine("6 - Salvar Agenda no Computador");
+            Console.WriteLine("7 - Importar Arquivo de Agenda");
             Console.WriteLine("0 - Sair");
             opt = int.Parse(Console.ReadLine());
             switch (opt)
@@ -40,6 +42,9 @@ internal class Program
                     break;
                 case 6:
                     saveToFile(listContact);
+                    break;
+                case 7:
+                    listContact = importFile();
                     break;
                 default:
                     Console.WriteLine("Opção inválida.");
@@ -257,5 +262,74 @@ internal class Program
         }
         Console.WriteLine("Arquivo gerado com sucesso.");
         filecontent.Close();
+    }
+    static List<Contact> importFile()
+    {
+        List<Contact> templista = new();
+        string path = @"C:\Dados\", file = "agenda.txt";
+        string[] content;
+        foreach (string item in File.ReadLines(path + file))
+        {
+            if (item.Split(';')[0] != "nome")
+            {
+                templista.Add(importAgenda(item.Split(';'))); // Separo o conteudo do arquivo para ser consumido e ser criado um objeto Contact
+                // em seguida eu adiciono ele a uma lista
+            }
+        }
+        return templista; // retorno essa lista para a Main e importo a minha agenda
+    }
+    static Contact importAgenda(string[] content)
+    {
+        // Nesse método eu leio o arquivo e salvo os valores em um array separado
+        // depois trato eles um a um e finalizo criando a classe Contact, a qual eu retorno na funcao
+        List<Contact> temp_listContact = new();
+        Address temp_address;
+        Contact temp_contact;
+        // filecontent.WriteLine("nome;email;cep;uf;cidade;endereco;numero;bairro;telefones");
+        //         array content    0    1    2   3   4        5      6     7      8
+        string name, email;
+        name = content[0];
+        email = content[1];
+
+        string postalcode, state, city, street, neighborhood;
+        int number;
+        postalcode = content[2];
+        state = content[3];
+        city = content[4];
+        street = content[5];
+        number = int.Parse(content[6]);
+        neighborhood = content[7];
+        temp_address = new Address(postalcode, state.ToUpper(), city.ToUpper(), street.ToUpper(), neighborhood.ToUpper(), number);
+
+        string type, phonenumber;
+        int phonequantity = 1;
+        string[] ph1 = new string[9];
+        List<Phone> temp_listphone = new();
+        Phone temp_phone;
+        phonenumber = content[8];
+        ph1 = content[8].Split('|');
+
+        if (ph1.Length > 3)
+        {
+            phonequantity = 2;
+        }
+        while (phonequantity > 0)
+        {
+            if (phonequantity == 2)
+            {
+                type = ph1[3];
+                phonenumber = ph1[4];
+            }
+            else
+            {
+                type = ph1[1];
+                phonenumber = ph1[2];
+            }
+            temp_phone = new Phone(phonenumber, type.ToUpper());
+            temp_listphone.Add(temp_phone);
+            phonequantity--;
+        }
+        temp_contact = new Contact(name, email, temp_address, temp_listphone);
+        return temp_contact;
     }
 }
