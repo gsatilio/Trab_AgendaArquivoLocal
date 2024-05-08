@@ -104,7 +104,7 @@ internal class Program
             temp_listphone.Add(temp_phone);
             if (phonequantity < 1)
             {
-                Console.WriteLine("Deseja inserir mais um telefone?\n[S - Sim][Qualquer outa tecla para Não]");
+                Console.WriteLine("Deseja inserir mais um telefone?\n[S - Sim][Qualquer outra tecla para Não]");
                 opt = Console.ReadLine();
             }
             phonequantity++;
@@ -116,133 +116,155 @@ internal class Program
     {
         string name;
         bool removed = false;
-        Console.WriteLine("Informe o nome do contato que deseja excluir:");
-        name = Console.ReadLine();
-        for (int i = listContact.Count - 1; i >= 0; i--)
+        if (emptyAgenda(listContact))
         {
-            if (listContact[i].Name == name)
-            {
-                listContact.RemoveAt(i);
-                removed = true;
-            }
-        }
-        if (removed)
-        {
-            Console.WriteLine("Contato excluído com sucesso.");
+            Console.WriteLine("Agenda vazia!");
         }
         else
         {
-            Console.WriteLine("Contato não localizado.");
+            Console.WriteLine("Informe o nome do contato que deseja excluir:");
+            name = Console.ReadLine();
+            for (int i = listContact.Count - 1; i >= 0; i--)
+            {
+                if (listContact[i].Name == name)
+                {
+                    listContact.RemoveAt(i);
+                    removed = true;
+                }
+            }
+            if (removed)
+            {
+                Console.WriteLine("Contato excluído com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine("Contato não localizado.");
+            }
         }
     }
     static void findContact(List<Contact> listContact)
     {
         string name;
         bool found = false;
-        Console.WriteLine("Informe o nome do contato que deseja localizar:");
-        name = Console.ReadLine();
-        for (int i = listContact.Count - 1; i >= 0; i--)
+        if (emptyAgenda(listContact))
         {
-            if (listContact[i].Name == name)
-            {
-                Console.WriteLine(listContact[i].ToString());
-                found = true;
-            }
+            Console.WriteLine("Agenda vazia!");
         }
-        if (!found)
+        else
         {
-            Console.WriteLine("Contato não localizado.");
+            Console.WriteLine("Informe o nome do contato que deseja localizar:");
+            name = Console.ReadLine();
+            for (int i = listContact.Count - 1; i >= 0; i--)
+            {
+                if (listContact[i].Name == name)
+                {
+                    Console.WriteLine(listContact[i].ToString());
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                Console.WriteLine("Contato não localizado.");
+            }
         }
     }
     static void printAll(List<Contact> listContact)
     {
-        bool found = false;
-        for (int i = listContact.Count - 1; i >= 0; i--)
+        if (emptyAgenda(listContact))
         {
-            Console.WriteLine(listContact[i].ToString());
-            Console.WriteLine("------------------------\n");
-            found = true;
+            Console.WriteLine("Agenda vazia!");
         }
-        if (!found)
+        else
         {
-            Console.WriteLine("Agenda vazia.");
+            for (int i = listContact.Count - 1; i >= 0; i--)
+            {
+                Console.WriteLine(listContact[i].ToString());
+                Console.WriteLine("------------------------\n");
+            }
         }
     }
     static void modifyContact(List<Contact> listContact)
     {
         string name, opt;
         bool found = false;
-        Console.WriteLine("Informe o nome do contato que deseja alterar os dados:");
-        name = Console.ReadLine();
-        for (int i = listContact.Count - 1; i >= 0; i--)
+        if (emptyAgenda(listContact))
         {
-            if (listContact[i].Name == name)
+            Console.WriteLine("Agenda vazia!");
+        }
+        else
+        {
+            Console.WriteLine("Informe o nome do contato que deseja alterar os dados:");
+            name = Console.ReadLine();
+            for (int i = listContact.Count - 1; i >= 0; i--)
             {
-                found = true;
-                if (found)
+                if (listContact[i].Name == name)
                 {
-                    //////// Alterar Nome do contato
-                    Console.WriteLine($"Deseja alterar o Nome do contato?(Nome atual: {listContact[i].Name})\n[S - Sim][Outra tecla - Não]");
-                    opt = Console.ReadLine();
-                    if (opt.ToLower() == "s")
+                    found = true;
+                    if (found)
                     {
-                        Console.WriteLine("Informe o nome desejado:");
-                        listContact[i].Name = Console.ReadLine();
-                        opt = "";
-                    }
-                    //////// Alterar Email do contato
-                    Console.WriteLine($"Deseja alterar o Email do contato?(Email atual: {listContact[i].Email})\n[S - Sim][Outra tecla - Não]");
-                    opt = Console.ReadLine();
-                    if (opt.ToLower() == "s")
-                    {
-                        Console.WriteLine("Informe o Email desejado:");
-                        listContact[i].Email = Console.ReadLine();
-                        opt = "";
-                    }
-                    //////// Alterar Endereço do contato
-                    Console.WriteLine("=> Endereço atual <=");
-                    Console.WriteLine(listContact[i].Address.ToString());
-                    Console.WriteLine($"Deseja alterar o Endereço do contato?\n[S - Sim][Outra tecla - Não]");
-                    opt = Console.ReadLine();
-                    if (opt.ToLower() == "s")
-                    {
-                        listContact[i].Address = createAddress();
-                        opt = "";
-                    }
-                    //////// Alterar Telefones do contato
-                    Console.WriteLine(listContact[i].printPhones());
-                    Console.WriteLine($"Deseja alterar o(s) telefone(s) do contato?\n[S - Sim][Outra tecla - Não]");
-                    opt = Console.ReadLine();
-                    if (opt.ToLower() == "s")
-                    {
-                        int phonequantity = 0;
-                        string type, number;
-                        List<Phone> temp_listphone = new();
-                        Phone temp_phone;
-                        do
+                        //////// Alterar Nome do contato
+                        Console.WriteLine($"Deseja alterar o Nome do contato?(Nome atual: {listContact[i].Name})\n[S - Sim][Outra tecla - Não]");
+                        opt = Console.ReadLine();
+                        if (opt.ToLower() == "s")
                         {
-                            Console.WriteLine("Informe o tipo de contato (Fixo/Celular/etc)");
-                            type = Console.ReadLine();
-                            Console.WriteLine("Informe o número do telefone:");
-                            number = Console.ReadLine();
-                            temp_phone = new Phone(number, type.ToUpper());
-                            temp_listphone.Add(temp_phone);
-                            if (phonequantity < 1)
+                            Console.WriteLine("Informe o nome desejado:");
+                            listContact[i].Name = Console.ReadLine();
+                            opt = "";
+                        }
+                        //////// Alterar Email do contato
+                        Console.WriteLine($"Deseja alterar o Email do contato?(Email atual: {listContact[i].Email})\n[S - Sim][Outra tecla - Não]");
+                        opt = Console.ReadLine();
+                        if (opt.ToLower() == "s")
+                        {
+                            Console.WriteLine("Informe o Email desejado:");
+                            listContact[i].Email = Console.ReadLine();
+                            opt = "";
+                        }
+                        //////// Alterar Endereço do contato
+                        Console.WriteLine("=> Endereço atual <=");
+                        Console.WriteLine(listContact[i].Address.ToString());
+                        Console.WriteLine($"Deseja alterar o Endereço do contato?\n[S - Sim][Outra tecla - Não]");
+                        opt = Console.ReadLine();
+                        if (opt.ToLower() == "s")
+                        {
+                            listContact[i].Address = createAddress();
+                            opt = "";
+                        }
+                        //////// Alterar Telefones do contato
+                        Console.WriteLine(listContact[i].printPhones());
+                        Console.WriteLine($"Deseja alterar o(s) telefone(s) do contato?\n[S - Sim][Outra tecla - Não]");
+                        opt = Console.ReadLine();
+                        if (opt.ToLower() == "s")
+                        {
+                            int phonequantity = 0;
+                            string type, number;
+                            List<Phone> temp_listphone = new();
+                            Phone temp_phone;
+                            do
                             {
-                                Console.WriteLine("Deseja inserir mais um telefone?\n[S - Sim][Qualquer outa tecla para Não]");
-                                opt = Console.ReadLine();
-                            }
-                            phonequantity++;
-                        } while (opt == "s" && phonequantity < 2);
-                        listContact[i].Phone = temp_listphone;
-                        opt = "";
+                                Console.WriteLine("Informe o tipo de contato (Fixo/Celular/etc)");
+                                type = Console.ReadLine();
+                                Console.WriteLine("Informe o número do telefone:");
+                                number = Console.ReadLine();
+                                temp_phone = new Phone(number, type.ToUpper());
+                                temp_listphone.Add(temp_phone);
+                                if (phonequantity < 1)
+                                {
+                                    Console.WriteLine("Deseja inserir mais um telefone?\n[S - Sim][Qualquer outra tecla para Não]");
+                                    opt = Console.ReadLine();
+                                }
+                                phonequantity++;
+                            } while (opt == "s" && phonequantity < 2);
+                            listContact[i].Phone = temp_listphone;
+                            opt = "";
+                        }
                     }
                 }
             }
-        }
-        if (!found)
-        {
-            Console.WriteLine("Contato não localizado.");
+            if (!found)
+            {
+                Console.WriteLine("Contato não localizado.");
+            }
         }
     }
     static void saveToFile(List<Contact> listContact)
@@ -253,29 +275,44 @@ internal class Program
             Directory.CreateDirectory(path);
         }
 
-        Console.WriteLine("Esse processo salvará um arquivo na pasta C:\\Dados\\agenda.txt");
-        StreamWriter filecontent = new(path + file);
-        filecontent.WriteLine("nome;email;cep;uf;cidade;endereco;numero;bairro;telefones");
-        foreach (var item in listContact)
+        if (emptyAgenda(listContact))
         {
-            filecontent.WriteLine(item.printToFile());
+            Console.WriteLine("Agenda vazia!");
         }
-        Console.WriteLine("Arquivo gerado com sucesso.");
-        filecontent.Close();
+        else
+        {
+            Console.WriteLine("Esse processo salvará um arquivo na pasta C:\\Dados\\agenda.txt");
+            StreamWriter filecontent = new(path + file);
+            filecontent.WriteLine("nome;email;cep;uf;cidade;endereco;numero;bairro;telefones");
+            foreach (var item in listContact)
+            {
+                filecontent.WriteLine(item.printToFile());
+            }
+            Console.WriteLine("Arquivo gerado com sucesso.");
+            filecontent.Close();
+        }
     }
     static List<Contact> importFile()
     {
         List<Contact> templista = new();
         string path = @"C:\Dados\", file = "agenda.txt";
         string[] content;
-        foreach (string item in File.ReadLines(path + file))
+        if (File.Exists(path + file))
         {
-            if (item.Split(';')[0] != "nome")
+            foreach (string item in File.ReadLines(path + file))
             {
-                templista.Add(importAgenda(item.Split(';'))); // Separo o conteudo do arquivo para ser consumido e ser criado um objeto Contact
-                // em seguida eu adiciono ele a uma lista
+                if (item.Split(';')[0] != "nome")
+                {
+                    templista.Add(importAgenda(item.Split(';'))); // Separo o conteudo do arquivo para ser consumido e ser criado um objeto Contact
+                                                                  // em seguida eu adiciono ele a uma lista
+                }
             }
         }
+        else
+        {
+            Console.WriteLine($"Arquivo {path}{file} inexistente!");
+        }
+        Console.WriteLine("Arquivo carregado com sucesso!");
         return templista; // retorno essa lista para a Main e importo a minha agenda
     }
     static Contact importAgenda(string[] content)
@@ -303,13 +340,13 @@ internal class Program
 
         string type, phonenumber;
         int phonequantity = 1;
-        string[] ph1 = new string[9];
+        string[] phonenumberaux = new string[9];
         List<Phone> temp_listphone = new();
         Phone temp_phone;
         phonenumber = content[8];
-        ph1 = content[8].Split('|');
+        phonenumberaux = content[8].Split('|');
 
-        if (ph1.Length > 3)
+        if (phonenumberaux.Length > 3)
         {
             phonequantity = 2;
         }
@@ -317,13 +354,13 @@ internal class Program
         {
             if (phonequantity == 2)
             {
-                type = ph1[3];
-                phonenumber = ph1[4];
+                type = phonenumberaux[3];
+                phonenumber = phonenumberaux[4];
             }
             else
             {
-                type = ph1[1];
-                phonenumber = ph1[2];
+                type = phonenumberaux[1];
+                phonenumber = phonenumberaux[2];
             }
             temp_phone = new Phone(phonenumber, type.ToUpper());
             temp_listphone.Add(temp_phone);
@@ -331,5 +368,16 @@ internal class Program
         }
         temp_contact = new Contact(name, email, temp_address, temp_listphone);
         return temp_contact;
+    }
+    static bool emptyAgenda(List<Contact> listContact)
+    {
+        if (listContact.Count == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
