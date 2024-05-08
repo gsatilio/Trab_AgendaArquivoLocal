@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Intrinsics.X86;
 using Trab_AgendaArquivoLocal;
 
 internal class Program
@@ -27,9 +28,11 @@ internal class Program
                     break;
                 case 1:
                     listContact.Add(createContact());
+                    reorganizeList(listContact);
                     break;
                 case 2:
                     removeContact(listContact);
+                    reorganizeList(listContact);
                     break;
                 case 3:
                     printAll(listContact);
@@ -39,6 +42,7 @@ internal class Program
                     break;
                 case 5:
                     modifyContact(listContact);
+                    reorganizeList(listContact);
                     break;
                 case 6:
                     saveToFile(listContact);
@@ -68,8 +72,7 @@ internal class Program
     }
     static Address createAddress()
     {
-        string postalcode, state, city, street, neighborhood;
-        int number;
+        string postalcode, state, city, street, neighborhood, number;
         Console.WriteLine("Informe o CEP:");
         postalcode = Console.ReadLine();
         Console.WriteLine("Informe a UF:");
@@ -81,7 +84,8 @@ internal class Program
         Console.WriteLine("Informe o Bairro:");
         neighborhood = Console.ReadLine();
         Console.WriteLine("Informe o número do logradouro:");
-        number = int.Parse(Console.ReadLine());
+        number = Console.ReadLine();
+
 
         Address temp_address = new Address(postalcode, state.ToUpper(), city.ToUpper(), street.ToUpper(), neighborhood.ToUpper(), number);
 
@@ -328,13 +332,12 @@ internal class Program
         name = content[0];
         email = content[1];
 
-        string postalcode, state, city, street, neighborhood;
-        int number;
+        string postalcode, state, city, street, neighborhood, number;
         postalcode = content[2];
         state = content[3];
         city = content[4];
         street = content[5];
-        number = int.Parse(content[6]);
+        number = content[6];
         neighborhood = content[7];
         temp_address = new Address(postalcode, state.ToUpper(), city.ToUpper(), street.ToUpper(), neighborhood.ToUpper(), number);
 
@@ -378,6 +381,30 @@ internal class Program
         else
         {
             return false;
+        }
+    }
+    static void reorganizeList(List<Contact> listContact)
+    {
+        // método para reorganizar a lista de forma Name Ascendente
+        List<Contact> listContactAux = new(); // lista temporaria para armazenar o elemento substituido
+        int compare = 0;
+        for (int i = 0; i < listContact.Count; i++) // primeiro laço para pegar o primeiro elemento da lista
+        {
+            for (int j = i+1; j < listContact.Count; j++) // segundo laço para comparar esse elemento com os demais elementos da lista
+            {
+                if (listContact[j].Name != null) // enquanto elemento próximo não for nulo
+                {
+                    // comparo o elemento próximo com o elemento atual. se for menor que zero, entao o atual recebe o próximo
+                    compare = String.Compare(listContact[j].Name, listContact[i].Name, comparisonType: StringComparison.OrdinalIgnoreCase);
+                    if(compare < 0)
+                    {
+                        listContactAux.Add(listContact[i]); // adiciono na auxiliar o elemento atual
+                        listContact[i] = listContact[j];    // elemento atual recebe o próximo
+                        listContact[j] = listContactAux[0]; // elemento próximo recebe o auxiliar (antigo atual)
+                        listContactAux.RemoveAt(0);         // removo o elemento do auxiliar, para ser usado novamente no outro laço se preciso
+                    }
+                }
+            }
         }
     }
 }

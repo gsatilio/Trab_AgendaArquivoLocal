@@ -13,9 +13,9 @@ namespace Trab_AgendaArquivoLocal
         string city;
         string street;
         string neighborhood;
-        int number;
+        string number;
 
-        public Address(string postalcode, string state, string city, string street, string neighborhood, int number)
+        public Address(string postalcode, string state, string city, string street, string neighborhood, string number)
         {
             this.postalcode = postalcode;
             this.state = state;
